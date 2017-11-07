@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EMA UAS</string>
+    <string name="Ok">Ok</string>
+    <string name="save">Save</string>
+    <string name="back">Back</string>
+
+    <string name="btn_start"> Start </string>
+    <string name="btn_stop"> Stop </string>
+    <string name="alarm_survey">Start Survey</string>
+
+    <string name="action_admin">Admin</string>
+    <string name="action_about">About</string>
+    <string name="action_resync">Sync with server</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_soundrecording">Sound recording</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_optout">Opt out</string>
+    <string name="title_activity_zemi_picture">Picture</string>
+    <string name="action_techissues">Technical issues</string>
+
+    <string name="main_loading">Loading…</string>
+    <string name="main_technicalissues_title">"Technical issues"</string>
+
+    <string name="main_technicalissues_body">
+        If you have technical questions or concerns, please contact the helpdesk at 1-855-872-8673 (9am - 5pm PST) or by email: uashelp@usc.edu.\n
+        Please mention the app version (%1$s) and your UAS login number.\n\n
+
+        UAS login number: %2$s \n\n
+        %3$s
+    </string>
+
+    <string name="menu_admin_please_enter_password">Please enter your password.</string>
+    <string name="menu_admin_invalid_password">Invalid password.</string>
+
+    <string name="admin_instructions">Init this phone by entering the id and date, start and end time.</string>
+    <string name="admin_rtid">RTID:</string>
+    <string name="admin_date">Date: %1$s</string>
+    <string name="admin_begin">Begin Time: %1$s</string>
+    <string name="admin_end">End Time: %1$s</string>
+    <string name="admin_show_alarms">Show alarms</string>
+
+    <string name="main_permissions_title_before">App Permissions</string>
+    <string name="main_permissions_body_before">This app may require permissions to load user from download file.  If permission is denied, please see contact the UAS team at (213) 821 8859 or ptus-l@usc.edu for sign up id.</string>
+    <string name="main_permissions_title_denied">Permission Denied.</string>
+    <string name="main_permissions_body_denied">This app may require permissions to load user from download file.  If you do not have a user login id, please contact the UAS team at (213) 821 8859 or ptus-l@usc.edu for sign up id.</string>
+    <string name="title_activity_sound_recording">SoundRecordingActivity</string>
+</resources>

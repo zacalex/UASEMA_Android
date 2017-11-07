@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".zemi">
+
+        <item android:id="@+id/menu_admin" android:title="@string/action_admin" android:orderInCategory="100" app:showAsAction="never" />
+        <item android:id="@+id/menu_refresh" android:title="@string/action_refresh" android:orderInCategory="100" app:showAsAction="never" />
+        <item android:id="@+id/menu_sound" android:title="@string/action_soundrecording" android:orderInCategory="100" app:showAsAction="never" />
+
+        <item android:id="@+id/menu_optout" android:title="@string/action_optout" android:orderInCategory="100" app:showAsAction="never" android:visible="false" />
+        <item android:id="@+id/menu_technicalissues" android:title="@string/action_techissues" android:orderInCategory="100" app:showAsAction="never" />
+        <item android:id="@+id/menu_logout" android:title="@string/action_logout" android:orderInCategory="100" app:showAsAction="never" />
+
+</menu>

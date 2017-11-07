@@ -1,0 +1,115 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:actionMenuTextColor="@android:color/holo_green_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+        <com.beardedhen.androidbootstrap.BootstrapWell
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            app:bootstrapSize="xs">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Press the microphone button to start recording. Press the button again to stop"
+                />
+        </com.beardedhen.androidbootstrap.BootstrapWell>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
+
+
+        <ImageButton
+            android:id="@+id/openEndedRecordSoundPictureButton"
+            style="android:buttonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/nubis_buttons"
+            android:contentDescription="@color/NubisWhite"
+            android:paddingBottom="4dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingTop="5dp"
+            android:src="@android:drawable/ic_btn_speak_now"
+            android:tag="@drawable/nubis_buttons" />
+
+<!--        <Button
+            android:id="@+id/saveOpenEndedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/nubis_buttons"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="12dp"
+            android:text="Save recording"
+            android:textColor="@color/NubisWhite"
+          />-->
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/saveOpenEndedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save recording"
+            app:bootstrapSize="lg"
+            app:buttonMode="regular"
+            app:showOutline="true"
+            app:roundedCorners="true"
+            />
+
+
+
+
+    </LinearLayout>
+
+
+<!--        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="\n\nAfter recording is done, you can Save the recording. You can also start over with a new recording by pressing the microphone button again"
+            />-->
+
+        <com.beardedhen.androidbootstrap.BootstrapWell
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            app:bootstrapSize="xs">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="After recording is done, you can Save the recording. You can also start over with a new recording by pressing the microphone button again"
+                />
+        </com.beardedhen.androidbootstrap.BootstrapWell>
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

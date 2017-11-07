@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "713415485747",
+    "firebase_url": "https://ptus-97ca8.firebaseio.com",
+    "project_id": "ptus-97ca8",
+    "storage_bucket": "ptus-97ca8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713415485747:android:eadd30010c8ed18d",
+        "android_client_info": {
+          "package_name": "edu.usc.cesr.ticktock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713415485747-l65fit1lplh71oie64bm8v9ufvqtr5q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyeYF3DBDKwPdATfC5D1y4RECrGmg0OJ0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
