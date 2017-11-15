@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -13,7 +14,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import edu.usc.cesr.ema_uas.Constants;
+import edu.usc.cesr.ema_uas.R;
 import edu.usc.cesr.ema_uas.model.Survey;
+import edu.usc.cesr.ema_uas.ui.MainActivity;
+import edu.usc.cesr.ema_uas.util.DateUtil;
 
 import static android.content.Intent.FLAG_INCLUDE_STOPPED_PACKAGES;
 
@@ -47,7 +51,7 @@ public class MyAlarmManager {
     }
     private void setSingleAlarm(Context context, Calendar calendar, int requestCode){
         SimpleDateFormat format = new SimpleDateFormat("kk:mm");
-        Log.e("TT", "MyAlarmManager => setSingleAlarm() => Code: " + requestCode + " Date: " + format.format(calendar.getTime()));
+        Log.e("TT", "MyAlarmManager => setSingleAlarm() => Code: " + requestCode + " Date: " + DateUtil.stringifyAll(calendar));
         //  Build pending intent
         PendingIntent pendingIntent = buildPendingIntent(context, requestCode);
 
@@ -92,9 +96,25 @@ public class MyAlarmManager {
 
         //  Build pending intent
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.addFlags(FLAG_INCLUDE_STOPPED_PACKAGES);
-        intent.putExtra(REQUEST_CODE, requestCode);
-        return PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        PendingIntent goBackPendingIntent = PendingIntent.getActivity(context,requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle("Survey with requestCode : " + requestCode)
+                        .setContentText("Survey for " + requestCode + " is Ready")
+                        .setContentIntent(goBackPendingIntent)
+                        .setAutoCancel(true);
+
+
+        Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, requestCode);
+        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION, mBuilder.build());
+        notificationIntent.addFlags(FLAG_INCLUDE_STOPPED_PACKAGES);
+        notificationIntent.putExtra(REQUEST_CODE, requestCode);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return pendingIntent;
     }
 
     public List<Survey> futureSurveys(List<Survey> surveys){

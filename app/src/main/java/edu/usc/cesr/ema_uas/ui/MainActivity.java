@@ -41,6 +41,7 @@ import edu.usc.cesr.ema_uas.BuildConfig;
 import edu.usc.cesr.ema_uas.Constants;
 import edu.usc.cesr.ema_uas.R;
 import edu.usc.cesr.ema_uas.alarm.MyAlarmManager;
+import edu.usc.cesr.ema_uas.alarm.MyNotificationManager;
 import edu.usc.cesr.ema_uas.model.Settings;
 import edu.usc.cesr.ema_uas.model.Survey;
 import edu.usc.cesr.ema_uas.model.UrlBuilder;
@@ -137,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
         // if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
         //    requestPermissionIfRequired(this);
         // }
+//        MyNotificationManager myNotificationManager = new MyNotificationManager();
+////        myNotificationManager.setInstantNotification(this);
+//        myNotificationManager.setNotificationForCalendar(this, Calendar.getInstance());
     }
 
     @Override

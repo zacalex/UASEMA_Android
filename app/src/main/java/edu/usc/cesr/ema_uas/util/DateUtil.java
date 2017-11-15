@@ -16,4 +16,9 @@ public class DateUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return (calendar == null) ? "null" : format.format(calendar.getTime());
     }
+    public static int intDate(Calendar calendar){
+        SimpleDateFormat format = new SimpleDateFormat("MMddHHmm");
+        return (calendar == null) ? -1 : Integer.parseInt(format.format(calendar.getTime()));
+    }
+
 }

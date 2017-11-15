@@ -55,6 +55,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.usc.cesr.ema_uas.ui.MainActivity" />
         </activity>
+        <receiver android:name=".alarm.NotificationPublisher">]
+            <intent-filter>
+                <action android:name="edu.usc.cesr.ema_uas.action.DISPLAY_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
