@@ -22,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -159,20 +160,30 @@ public class MainActivity extends AppCompatActivity {
 
         //  User is logged in and during survey
         if(settings.isLoggedIn() && settings.allFieldsSet() && settings.shouldShowSurvey(now)) {
-            Survey survey = settings.getSurveyByTime(Calendar.getInstance());
-            Intent i = new Intent(this, AlarmActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            int requestCode =
-                    (now.getTimeInMillis() - survey.getDate().getTimeInMillis() < Constants.TIME_TO_REMINDER * 60 * 1000) ?
-                    survey.getRequestCode() : survey.getRequestCode() + 1;
+//            Survey survey = settings.getSurveyByTime(Calendar.getInstance());
+//            Intent i = new Intent(this, AlarmActivity.class);
+//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            int requestCode =
+//                    (now.getTimeInMillis() - survey.getDate().getTimeInMillis() < Constants.TIME_TO_REMINDER * 60 * 1000) ?
+//                    survey.getRequestCode() : survey.getRequestCode() + 1;
+//
+//            i.putExtra(MyAlarmManager.REQUEST_CODE, requestCode);
+//            startActivity(i);
+//            finish();
 
-            i.putExtra(MyAlarmManager.REQUEST_CODE, requestCode);
-            startActivity(i);
-            finish();
+            settings = Settings.getInstance(this);
+            int requestCode = getIntent().getIntExtra(MyAlarmManager.REQUEST_CODE, 0);
+            int surveyCode = Survey.getSurveyCode(requestCode);
+            String timeTag = settings.getTimeTag(surveyCode);
+
+            showWebView(UrlBuilder.build(UrlBuilder.PHONE_ALARM, settings, Calendar.getInstance(), true)
+                    + (timeTag == null ? "" : timeTag));
+            Log.e("MainActivity", "show survey");
 
         //  User is logged in, is not during survey, and has not skipped previous
         }else if (settings.isLoggedIn() && settings.allFieldsSet() && !settings.shouldShowSurvey(now) && !settings.skippedPrevious(now)){
             showWebView(UrlBuilder.build(UrlBuilder.PHONE_START, settings, now, true));
+
 
         //  User is logged in, but has skipped previous
         }else if (settings.isLoggedIn() && settings.allFieldsSet() && !settings.shouldShowSurvey(now) && settings.skippedPrevious(now)){
@@ -266,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menu_logout:
                 settings.clearAndSave(this);
+                this.getAlarmManager().cancelAllAlarms(getBaseContext());
                 webView.loadUrl(UrlBuilder.build(UrlBuilder.PHONE_LOGOUT, settings, Calendar.getInstance(), true));
                 break;
             case R.id.menu_sound:

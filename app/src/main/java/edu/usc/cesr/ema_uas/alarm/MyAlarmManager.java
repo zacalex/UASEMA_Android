@@ -51,7 +51,7 @@ public class MyAlarmManager {
     }
     private void setSingleAlarm(Context context, Calendar calendar, int requestCode){
         SimpleDateFormat format = new SimpleDateFormat("kk:mm");
-        Log.e("TT", "MyAlarmManager => setSingleAlarm() => Code: " + requestCode + " Date: " + DateUtil.stringifyAll(calendar));
+//        Log.e("TT", "MyAlarmManager => setSingleAlarm() => Code: " + requestCode + " Date: " + DateUtil.stringifyAll(calendar));
         //  Build pending intent
         PendingIntent pendingIntent = buildPendingIntent(context, requestCode);
 
@@ -72,9 +72,9 @@ public class MyAlarmManager {
         reminderTime.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + Constants.TIME_TO_REMINDER);
         setSingleAlarm(context, reminderTime, requestCode + 1);
 
-        Calendar cancelTime = (Calendar) calendar.clone();
-        cancelTime.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + Constants.TIME_TO_TAKE_SURVEY);
-        setSingleAlarm(context, cancelTime, requestCode + 2);
+//        Calendar cancelTime = (Calendar) calendar.clone();
+//        cancelTime.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + Constants.TIME_TO_TAKE_SURVEY);
+//        setSingleAlarm(context, cancelTime, requestCode + 2);
     }
 
     /** Cancel */
@@ -95,22 +95,15 @@ public class MyAlarmManager {
     private PendingIntent buildPendingIntent(Context context, int requestCode){
 
         //  Build pending intent
-        Intent intent = new Intent(context, AlarmReceiver.class);
+        Intent intent = new Intent(context, MainActivity.class);
 
 
         PendingIntent goBackPendingIntent = PendingIntent.getActivity(context,requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("Survey with requestCode : " + requestCode)
-                        .setContentText("Survey for " + requestCode + " is Ready")
-                        .setContentIntent(goBackPendingIntent)
-                        .setAutoCancel(true);
 
 
         Intent notificationIntent = new Intent(context, AlarmReceiver.class);
         notificationIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, requestCode);
-        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION, mBuilder.build());
+//        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION, mBuilder.build());
         notificationIntent.addFlags(FLAG_INCLUDE_STOPPED_PACKAGES);
         notificationIntent.putExtra(REQUEST_CODE, requestCode);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);

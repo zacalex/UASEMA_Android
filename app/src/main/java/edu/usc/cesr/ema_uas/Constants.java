@@ -2,7 +2,7 @@ package edu.usc.cesr.ema_uas;
 
 public class Constants {
 
-    public static boolean isDemo = true;
+    public static boolean isDemo = false;
 
 //    public static int TIME_BETWEEN_SURVEYS_PRO = 45;
     public static int TIME_BETWEEN_SURVEYS_PRO = 90;
