@@ -177,7 +177,7 @@ public class Settings {
         int minutesDiff = (int) (end.getTimeInMillis() - start.getTimeInMillis()) / minute;
         List<Integer> beepMinDiff = new ArrayList<>();
 
-        for(int count = 0,i = 0; count < 60 && i < minutesDiff; count ++ ,i += Constants.TIME_BETWEEN_SURVEYS_DEV) {
+        for(int count = 0,i = 2; count < 60 && i < minutesDiff; count ++ ,i += Constants.TIME_BETWEEN_SURVEYS_DEV) {
             beepMinDiff.add(i);
         }
 
@@ -185,7 +185,7 @@ public class Settings {
         for(int i = 0; i < beepMinDiff.size(); i++){
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.MINUTE, beepMinDiff.get(i));
-//            Log.e("Survey generate", "for time " + DateUtil.stringifyAll(calendar));
+            Log.e("Survey generate", "for time " + DateUtil.stringifyAll(calendar));
             alarmTimes.add(new Survey(i * 3, calendar));
         }
         return alarmTimes;

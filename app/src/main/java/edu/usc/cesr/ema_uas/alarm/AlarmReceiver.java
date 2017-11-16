@@ -6,9 +6,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
-//import android.support.v7.app.NotificationCompat;
+//import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
@@ -34,26 +35,35 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         PendingIntent goBackPendingIntent = PendingIntent.getActivity(context,requestCode, backintent, PendingIntent.FLAG_UPDATE_CURRENT);
 //        requestCode = intent.getIntExtra(NOTIFICATION_ID, 0);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("Survey with requestCode : " + requestCode)
-                        .setContentText("Survey for " + requestCode + " is Ready")
-                        .setContentIntent(goBackPendingIntent)
-                        .setAutoCancel(true);
+
 
 
         Log.i(TAG, "notification sent " + requestCode);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= 26) {
+//        if (Build.VERSION.SDK_INT >= 26) {
             NotificationChannel channel = new NotificationChannel("Reminders", "Reminders", NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription("Channel description");
+            channel.enableLights(true);
+            channel.enableVibration(true);
+            channel.setLightColor(Color.GREEN);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+
             notificationManager.createNotificationChannel(channel);
 
-        }
+            Notification.Builder mBuilder = new Notification.Builder(context, "Reminders")
+                            .setSmallIcon(R.drawable.ic_launcher)
+                            .setContentTitle("Survey with requestCode : " + requestCode)
+                            .setContentText("Survey for " + requestCode + " is Ready")
+                            .setContentIntent(goBackPendingIntent)
+                            .setAutoCancel(true);
+
+            notificationManager.notify(requestCode, mBuilder.build());
+
+//        }
 
 
-        notificationManager.notify(requestCode, mBuilder.build());
+
+
 
         if(requestCode % 3 == 0 || requestCode % 3 == 1){
             AlarmUtil.soundAlarm(context);

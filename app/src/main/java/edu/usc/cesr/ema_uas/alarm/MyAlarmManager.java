@@ -51,7 +51,7 @@ public class MyAlarmManager {
     }
     private void setSingleAlarm(Context context, Calendar calendar, int requestCode){
         SimpleDateFormat format = new SimpleDateFormat("kk:mm");
-//        Log.e("TT", "MyAlarmManager => setSingleAlarm() => Code: " + requestCode + " Date: " + DateUtil.stringifyAll(calendar));
+        Log.e("TT", "MyAlarmManager => setSingleAlarm() => Code: " + requestCode + " Date: " + DateUtil.stringifyAll(calendar));
         //  Build pending intent
         PendingIntent pendingIntent = buildPendingIntent(context, requestCode);
 

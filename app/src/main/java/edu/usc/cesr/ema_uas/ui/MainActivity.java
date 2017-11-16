@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -135,18 +136,16 @@ public class MainActivity extends AppCompatActivity {
         if(url == null) route(settings);
         else showWebView(url);
 
-        // No longer reading participant id from downloaded apk
-        // if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-        //    requestPermissionIfRequired(this);
-        // }
-//        MyNotificationManager myNotificationManager = new MyNotificationManager();
-////        myNotificationManager.setInstantNotification(this);
-//        myNotificationManager.setNotificationForCalendar(this, Calendar.getInstance());
+
     }
+
 
     @Override
     protected void onResume() {
+
         super.onResume();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
     }
 
     @Override
