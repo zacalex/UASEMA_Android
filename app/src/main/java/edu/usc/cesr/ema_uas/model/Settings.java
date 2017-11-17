@@ -177,7 +177,7 @@ public class Settings {
         int minutesDiff = (int) (end.getTimeInMillis() - start.getTimeInMillis()) / minute;
         List<Integer> beepMinDiff = new ArrayList<>();
 
-        for(int count = 0,i = 2; count < 60 && i < minutesDiff; count ++ ,i += Constants.TIME_BETWEEN_SURVEYS_DEV) {
+        for(int count = 0,i = 1; count < 60 && i < minutesDiff; count ++ ,i += Constants.TIME_BETWEEN_SURVEYS_DEV) {
             beepMinDiff.add(i);
         }
 
