@@ -11,9 +11,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,6 +30,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -44,6 +48,7 @@ import edu.usc.cesr.ema_uas.Constants;
 import edu.usc.cesr.ema_uas.R;
 import edu.usc.cesr.ema_uas.alarm.MyAlarmManager;
 import edu.usc.cesr.ema_uas.alarm.MyNotificationManager;
+import edu.usc.cesr.ema_uas.model.LocalCookie;
 import edu.usc.cesr.ema_uas.model.Settings;
 import edu.usc.cesr.ema_uas.model.Survey;
 import edu.usc.cesr.ema_uas.model.UrlBuilder;
@@ -58,6 +63,16 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog dialog;
     private Settings settings;
     private MyAlarmManager alarmManager;
+
+    public LocalCookie getLocalCookie() {
+        return localCookie;
+    }
+
+    public void setLocalCookie(LocalCookie localCookie) {
+        this.localCookie = localCookie;
+    }
+
+    private LocalCookie localCookie;
     //  private FirebaseAnalytics mFirebaseAnalytics;
     private boolean hasInternet = true;
 
@@ -130,11 +145,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 10 * 1000);
         }
+        if(requestCode % 3 == 0){
+            MyAlarmManager myAlarmManager = MyAlarmManager.getInstance(this);
+            myAlarmManager.cancelSingleAlarm(this,requestCode + 1);
+        }
 
         //  Handles change settings and alarms
         String url = getIntent().getStringExtra(URL);
         if(url == null) route(settings);
         else showWebView(url);
+
+
 
 
     }
@@ -212,8 +233,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showWebView(String url){
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        String cookies = sharedPref.getString(Constants.CookieKey,"");
+        String[] temp=cookies.split(";");
+        String cookie = "";
+        for (String ar1 : temp ){
+            if(ar1.contains("PHPSESSID")){
+                cookie = ar1;
+            }
+        }
+        Log.i("MainActivity", "cookies come from default " + cookie);
         try {
             if (hasInternet) {
+
+                CookieManager cookieManager = CookieManager.getInstance();
+
+                    cookieManager.setAcceptCookie(true);
+                    cookieManager.acceptCookie();
+                    cookieManager.setAcceptFileSchemeCookies(true);
+                    cookieManager.setCookie(url, cookie);
+                    Log.i("MainActivity", "add PHPSESSID to url " + cookie);
+
+
+
+
                 dialog.show();
                 webView.setVisibility(View.VISIBLE);
                 webView.loadUrl(url);

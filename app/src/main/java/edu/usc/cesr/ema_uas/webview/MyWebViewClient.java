@@ -1,11 +1,17 @@
 package edu.usc.cesr.ema_uas.webview;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+import android.webkit.CookieManager;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import edu.usc.cesr.ema_uas.Constants;
+import edu.usc.cesr.ema_uas.R;
 import edu.usc.cesr.ema_uas.ui.MainActivity;
 
 public class MyWebViewClient extends WebViewClient {
@@ -19,13 +25,22 @@ public class MyWebViewClient extends WebViewClient {
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         return false;
     }
-
+    public static final String TAG = "web View Client";
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
         if (activity.getDialog() != null && activity.getDialog().isShowing()) {
             activity.getDialog().dismiss();
         }
+        // save cookie
+        String cookies = CookieManager.getInstance().getCookie(url);
+
+        Log.i("MyWebViewClient", "cookies come from url is " + cookies);
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(Constants.CookieKey, cookies);
+        editor.commit();
+
     }
 
     @Override

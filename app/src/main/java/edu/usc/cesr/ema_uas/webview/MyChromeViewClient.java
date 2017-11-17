@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.webkit.ConsoleMessage;
+import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
@@ -13,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import edu.usc.cesr.ema_uas.alarm.MyAlarmManager;
+import edu.usc.cesr.ema_uas.model.LocalCookie;
 import edu.usc.cesr.ema_uas.model.Settings;
 import edu.usc.cesr.ema_uas.ui.AlarmActivity;
 import edu.usc.cesr.ema_uas.ui.MainActivity;
@@ -21,7 +23,7 @@ import edu.usc.cesr.ema_uas.ui.SoundRecordingActivity;
 public class MyChromeViewClient  extends WebChromeClient {
     private static final String END = "end", BEEP = "beep:",
             RTID = "rtid~", VIDEO = "video", VIDEO_URL = "https://survey.usc.edu/ptus/index.php?p=showvideo",
-            SOUNDRECORDING = "soundrecording";
+            SOUNDRECORDING = "soundrecording", TAG = "Chrome View Client";
 
     private MainActivity activity;
 
@@ -67,6 +69,7 @@ public class MyChromeViewClient  extends WebChromeClient {
 //              endCal.setTime(endDate);
 
                 Settings settings = activity.getSettings();
+                LocalCookie localCookie = activity.getLocalCookie();
 
                 if (true){
                 //if (beginCal.getTimeInMillis() != settings.getBeginTime().getTimeInMillis()) { //only if different!
@@ -84,6 +87,10 @@ public class MyChromeViewClient  extends WebChromeClient {
 
                     //  Redraw menu
                     activity.invalidateOptionsMenu();
+
+
+
+
                 }
                 //  activity.logEvent(settings, MainActivity.SIGN_UP_EVENT);
             } catch (ParseException e) {
@@ -110,4 +117,6 @@ public class MyChromeViewClient  extends WebChromeClient {
         result.cancel();
         return true;
     }
+
+
 }
