@@ -48,6 +48,7 @@ import edu.usc.cesr.ema_uas.Constants;
 import edu.usc.cesr.ema_uas.R;
 import edu.usc.cesr.ema_uas.alarm.MyAlarmManager;
 import edu.usc.cesr.ema_uas.alarm.MyNotificationManager;
+import edu.usc.cesr.ema_uas.model.JSONParser;
 import edu.usc.cesr.ema_uas.model.LocalCookie;
 import edu.usc.cesr.ema_uas.model.Settings;
 import edu.usc.cesr.ema_uas.model.Survey;
@@ -85,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         alarmManager = MyAlarmManager.getInstance(this);
         //  mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        //JSONParser tester
+        JSONParser.updateSettingSample();
 
         dialog = new ProgressDialog(this);
         dialog.setMessage(getResources().getString(R.string.main_loading));
