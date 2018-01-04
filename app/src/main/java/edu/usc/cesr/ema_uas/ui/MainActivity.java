@@ -46,6 +46,7 @@ import butterknife.ButterKnife;
 import edu.usc.cesr.ema_uas.BuildConfig;
 import edu.usc.cesr.ema_uas.Constants;
 import edu.usc.cesr.ema_uas.R;
+import edu.usc.cesr.ema_uas.Service.AccelerometerService;
 import edu.usc.cesr.ema_uas.alarm.MyAlarmManager;
 import edu.usc.cesr.ema_uas.alarm.MyNotificationManager;
 import edu.usc.cesr.ema_uas.model.JSONParser;
@@ -159,7 +160,9 @@ public class MainActivity extends AppCompatActivity {
         if(url == null) route(settings);
         else showWebView(url);
 
-
+        // start accelermoter service
+        Intent accelermoterIntent = new Intent(this, AccelerometerService.class);
+        startService(accelermoterIntent);
 
 
     }
