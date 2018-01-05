@@ -10,14 +10,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
-import edu.usc.cesr.ema_uas.util.FileManager;
-
-import static android.content.ContentValues.TAG;
+import edu.usc.cesr.ema_uas.util.DateUtil;
+import edu.usc.cesr.ema_uas.util.AcceFileManager;
 
 /**
  * Created by cal on 1/3/18.
@@ -61,17 +59,17 @@ public class AccelerometerService extends Service implements SensorEventListener
     @Override
     public void onSensorChanged(SensorEvent event) {
         // get sensor when Change
-        Log.d("accelerometer ", "X: " + event.values[0]+ " Y: " + event.values[1] + " Z: " + event.values[2]);
+//        Log.d("accelerometer ", "X: " + event.values[0]+ " Y: " + event.values[1] + " Z: " + event.values[2]);
 
         if (start == null) start = Calendar.getInstance();
 
         long diff = Calendar.getInstance().getTimeInMillis() - start.getTimeInMillis() ;
         if(diff > 1000) {
-            FileManager.appendFile(getApplicationContext(),acc + "");
-            Log.d("show curr acc", acc + "");
+            AcceFileManager.appendFile(getApplicationContext(), DateUtil.stringifyAllDash(Calendar.getInstance()) + " " + acc);
+//            Log.d("show curr acc", acc + "");
             acc = 0;
             start = Calendar.getInstance();
-            FileManager.loadFile(getApplicationContext());
+            AcceFileManager.loadFile(getApplicationContext());
         }
         calculateSVM(event.values[0]/stantardGravity, event.values[1]/stantardGravity, event.values[2]/stantardGravity);
 

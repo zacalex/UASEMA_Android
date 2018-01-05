@@ -15,7 +15,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,7 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -48,12 +46,12 @@ import edu.usc.cesr.ema_uas.Constants;
 import edu.usc.cesr.ema_uas.R;
 import edu.usc.cesr.ema_uas.Service.AccelerometerService;
 import edu.usc.cesr.ema_uas.alarm.MyAlarmManager;
-import edu.usc.cesr.ema_uas.alarm.MyNotificationManager;
 import edu.usc.cesr.ema_uas.model.JSONParser;
 import edu.usc.cesr.ema_uas.model.LocalCookie;
 import edu.usc.cesr.ema_uas.model.Settings;
 import edu.usc.cesr.ema_uas.model.Survey;
 import edu.usc.cesr.ema_uas.model.UrlBuilder;
+import edu.usc.cesr.ema_uas.util.AcceFileManager;
 import edu.usc.cesr.ema_uas.util.LogUtil;
 import edu.usc.cesr.ema_uas.webview.MyChromeViewClient;
 import edu.usc.cesr.ema_uas.webview.MyWebViewClient;
@@ -164,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         Intent accelermoterIntent = new Intent(this, AccelerometerService.class);
         startService(accelermoterIntent);
 
-
+        AcceFileManager.initFile(this,"65");
     }
 
 
