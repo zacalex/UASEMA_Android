@@ -38,6 +38,7 @@ public class Settings {
 
     public String serverURL = "https://uas.usc.edu/survey/uas/ema/daily/index.php";
 
+
     private Settings() {
     }
 

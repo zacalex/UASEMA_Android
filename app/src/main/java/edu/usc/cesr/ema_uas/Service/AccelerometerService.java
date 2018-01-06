@@ -1,19 +1,28 @@
 package edu.usc.cesr.ema_uas.Service;
 
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.net.ConnectivityManager;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
+import edu.usc.cesr.ema_uas.R;
+import edu.usc.cesr.ema_uas.model.Settings;
+import edu.usc.cesr.ema_uas.ui.MainActivity;
 import edu.usc.cesr.ema_uas.util.DateUtil;
 import edu.usc.cesr.ema_uas.util.AcceFileManager;
 
@@ -27,8 +36,15 @@ public class AccelerometerService extends Service implements SensorEventListener
     static int count=0;
     private Sensor mySensor;
     private Calendar start;
+    private Calendar startUpload;
+    private Calendar startAppend;
     private  double acc = 0;
     private double stantardGravity = 9.81;
+    private long SVMCalInterval = 1000;
+    private long uploadInterval = 60*60*1000;
+    private long appendInterval = 60*1000/2;
+    private boolean hasInternet = true;
+    private String appendBuffer = "";
 
     @Nullable
     @Override
@@ -48,7 +64,18 @@ public class AccelerometerService extends Service implements SensorEventListener
     @Override
     public void onCreate() {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        //add this line only
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                notificationIntent, 0);
+
+        Notification notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle("UASEma")
+                .setContentText("Collecting accelerometer data")
+                .setContentIntent(pendingIntent).build();
+
+        startForeground(1337, notification);
     }
     @Override
     public IBinder onBind(Intent intent) {
@@ -62,14 +89,33 @@ public class AccelerometerService extends Service implements SensorEventListener
 //        Log.d("accelerometer ", "X: " + event.values[0]+ " Y: " + event.values[1] + " Z: " + event.values[2]);
 
         if (start == null) start = Calendar.getInstance();
+        if (startUpload == null) startUpload = Calendar.getInstance();
+        if (startAppend == null) startAppend = Calendar.getInstance();
 
         long diff = Calendar.getInstance().getTimeInMillis() - start.getTimeInMillis() ;
-        if(diff > 1000) {
-            AcceFileManager.appendFile(getApplicationContext(), DateUtil.stringifyAllDash(Calendar.getInstance()) + " " + acc);
+        long diffUpload = Calendar.getInstance().getTimeInMillis() - startUpload.getTimeInMillis() ;
+
+        long diffAppend = Calendar.getInstance().getTimeInMillis() - startAppend.getTimeInMillis() ;
+        if(diff > SVMCalInterval) {
+            appendBuffer += DateUtil.stringifyAllDash(Calendar.getInstance()) + " " + acc +"\n";
 //            Log.d("show curr acc", acc + "");
             acc = 0;
             start = Calendar.getInstance();
-            AcceFileManager.loadFile(getApplicationContext());
+//            AcceFileManager.loadFile(getApplicationContext());
+
+        }
+        else if(AcceFileManager.checkExist(getApplicationContext()) && diffAppend > appendInterval){
+            AcceFileManager.appendFile(getApplicationContext(),appendBuffer);
+            appendBuffer = "";
+            startAppend = Calendar.getInstance();
+        }
+        else if (diffUpload > uploadInterval && hasInternet){
+            Log.d("AccServece","time to upload");
+            AcceFileManager.uplaodFile(getApplicationContext());
+//            AcceFileManager.initFile(getApplicationContext(), Settings.getInstance(getApplicationContext()).getRtid());
+//            AcceFileManager.loadFile(getApplicationContext());
+            AcceFileManager.resetFile(getApplicationContext(),Settings.getInstance(getApplicationContext()).getRtid());
+            startUpload = Calendar.getInstance();
         }
         calculateSVM(event.values[0]/stantardGravity, event.values[1]/stantardGravity, event.values[2]/stantardGravity);
 
@@ -82,5 +128,12 @@ public class AccelerometerService extends Service implements SensorEventListener
         acc += Math.sqrt(Math.pow(x,2) + Math.pow(y,2) + Math.pow(z,2)) - 1;
 
     }
+    BroadcastReceiver networkAvailableReceiver = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context context, Intent intent){
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            hasInternet = (cm.getActiveNetworkInfo() != null);
+        }
+    };
 
 }

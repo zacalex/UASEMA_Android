@@ -158,11 +158,9 @@ public class MainActivity extends AppCompatActivity {
         if(url == null) route(settings);
         else showWebView(url);
 
-        // start accelermoter service
+
         Intent accelermoterIntent = new Intent(this, AccelerometerService.class);
         startService(accelermoterIntent);
-
-        AcceFileManager.initFile(this,"65");
     }
 
 
@@ -182,6 +180,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void route(Settings settings){
         Calendar now = Calendar.getInstance();
+        if (settings.isLoggedIn()){
+            // start accelermoter service
+            AcceFileManager.initFile(this,settings.getRtid());
+        }
 
         //  User is logged in and during survey
         if(settings.isLoggedIn() && settings.allFieldsSet() && settings.shouldShowSurvey(now)) {
