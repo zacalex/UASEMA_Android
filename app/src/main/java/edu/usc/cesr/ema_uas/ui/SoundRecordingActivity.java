@@ -6,16 +6,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Timer;
@@ -37,6 +41,7 @@ public class SoundRecordingActivity extends AppCompatActivity {
     private boolean soundrecorded = false;
     private int numberOfRecordings = 0;
     private String mFileName;
+    private String mVedioFileName;
 
     private Timer RecordingTimer;
 
@@ -97,6 +102,7 @@ public class SoundRecordingActivity extends AppCompatActivity {
         });
 
         mFileName = Environment.getExternalStorageDirectory().getPath() + "/" + "sound" + ".3gp";
+        mVedioFileName = Environment.getExternalStorageDirectory().getPath() + "/" + "vedio" + ".mp4";
 
     }
 
@@ -246,6 +252,34 @@ public class SoundRecordingActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
+    private static final int REQUEST_IMAGE_CAPTURE = 10;
+    public void record_vedio(View view){
+        Intent i = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
+        File videoFile = new File(mVedioFileName);
+        Uri uri = Uri.fromFile(videoFile);
+        i.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        i.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
+        startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
+    }
+
+
+    public void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == REQUEST_IMAGE_CAPTURE){
+            if(resultCode == RESULT_OK){
+                Toast.makeText(getApplicationContext(), "Video Successfully Recorded", Toast.LENGTH_LONG).show();
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Video Capture Failed...", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
 }

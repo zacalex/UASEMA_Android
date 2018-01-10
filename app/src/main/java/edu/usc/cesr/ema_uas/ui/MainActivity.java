@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         //  mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //JSONParser tester
-        JSONParser.updateSettingSample();
+//        JSONParser.updateSettingSample();
 
         dialog = new ProgressDialog(this);
         dialog.setMessage(getResources().getString(R.string.main_loading));
@@ -159,8 +159,7 @@ public class MainActivity extends AppCompatActivity {
         else showWebView(url);
 
 
-        Intent accelermoterIntent = new Intent(this, AccelerometerService.class);
-        startService(accelermoterIntent);
+
     }
 
 
@@ -180,10 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void route(Settings settings){
         Calendar now = Calendar.getInstance();
-        if (settings.isLoggedIn()){
-            // start accelermoter service
-            AcceFileManager.initFile(this,settings.getRtid());
-        }
+
 
         //  User is logged in and during survey
         if(settings.isLoggedIn() && settings.allFieldsSet() && settings.shouldShowSurvey(now)) {
@@ -501,7 +497,21 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
+//    protected void onStop()
+//    {
+//        unregisterReceiver(this);
+//        super.onStop();
+//    }
+    public void  startAcceService(){
+        if(settings.getAccelrecording() == 1){
+            if (settings.getAccelrecording() == 1){
+                // start accelermoter service
+                Intent accelermoterIntent = new Intent(this, AccelerometerService.class);
+                startService(accelermoterIntent);
+                AcceFileManager.initFile(this,settings.getRtid());
+            }
+        }
+    }
 
 
 }
