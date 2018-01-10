@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -254,13 +256,9 @@ public class SoundRecordingActivity extends AppCompatActivity {
     }
     private static final int REQUEST_IMAGE_CAPTURE = 10;
     public void record_vedio(View view){
-        Intent i = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-
-        File videoFile = new File(mVedioFileName);
-        Uri uri = Uri.fromFile(videoFile);
-        i.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        i.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
-        startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
+        Intent intent = new Intent();
+        intent.setClass(this,VideoRecorderActivity.class);
+        startActivity(intent);
     }
 
 
@@ -281,5 +279,6 @@ public class SoundRecordingActivity extends AppCompatActivity {
             }
         }
     }
+
 
 }
