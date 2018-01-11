@@ -275,16 +275,9 @@ public class SoundRecordingActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setAction("android.media.action.VIDEO_CAPTURE");
         intent.addCategory("android.intent.category.DEFAULT");
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT,4*60);
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,0);
 
-        // 保存录像到指定的路径
-//        videofile = new File(mVedioFileName);
-//
-//        if(videofile.exists()) videofile.delete();
-//
-//        Log.d("videorecording", "path:" + videofile.getPath());
-//        Uri uri = Uri.fromFile(videofile);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-//        Toast.makeText(getApplicationContext(), "start video recording ", Toast.LENGTH_LONG).show();
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
     }
 
