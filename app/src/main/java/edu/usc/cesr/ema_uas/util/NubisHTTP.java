@@ -115,8 +115,8 @@ public class NubisHTTP extends AsyncTask<String, Integer, String> {
 	               
 			}
 			else if (delayedAnswer.getType() == NubisDelayedAnswer.N_POST_FILE){
-				 String serverURL = "http://10.120.66.69:8888/ema/index.php";
-				  String upLoadServerUri = serverURL + "?ema=1&q=" + Encrypt(delayedAnswer.getGetString());
+//				 String serverURL = "http://10.120.66.69:8888/ema/index.php";
+				  String upLoadServerUri = settings.serverURL + "?ema=1&q=" + Encrypt(delayedAnswer.getGetString());
 					Log.d("uploadServerUri", upLoadServerUri);
 			      URL url = new URL(upLoadServerUri);
 			      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
