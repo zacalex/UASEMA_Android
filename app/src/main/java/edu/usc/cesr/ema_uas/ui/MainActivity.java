@@ -157,7 +157,9 @@ public class MainActivity extends AppCompatActivity {
         String url = getIntent().getStringExtra(URL);
         if(url == null) route(settings);
         else showWebView(url);
-
+        if(settings.getAccelrecording() == 1) {
+            startAcceService();
+        }
 
 
     }

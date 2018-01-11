@@ -149,6 +149,7 @@
                 android:id="@+id/saveVideoButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="uploadVideo"
                 android:text="Save video"
                 app:bootstrapSize="lg"
                 app:buttonMode="regular"
